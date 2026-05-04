@@ -1,9 +1,7 @@
 # PrettyScript Language Support
-<br></br>
 
 ## What is PrettyScript?
 PrettyScript is an extension over JavaScript that adds variable typing, interface typing, additions to and simplifications of standard functions, and convenient HTTP handling.
 The language was created specifically to simplify development using JavaScript, so PrettyScript understands and compiles to standard JS
 
-## How to install?
-PrettyScript parses files directly in the Web. Apart from the parser, you don't need to download anything else. You just need to create an element in the page header with the type "text/prettyscript" and it will execute all the code written in the src file
+[View PrettyScript Source Files](https://github.com/cdmtn-dev/PrettyScript)
