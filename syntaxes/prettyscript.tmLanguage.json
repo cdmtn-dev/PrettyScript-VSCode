@@ -1,0 +1,532 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "PrettyScript",
+	"scopeName": "source.ps",
+	"patterns": [
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#special-variables"
+		},
+		{
+			"include": "#decorators"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#function-call"
+		},
+		{
+			"include": "#use-statement"
+		},
+		{
+			"include": "#variable-declaration"
+		},
+		{
+			"include": "#render-block"
+		},
+		{
+			"include": "#interface-declaration"
+		},
+		{
+			"include": "#function-declaration"
+		},
+		{
+			"include": "#component-declaration"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#type-annotation"
+		},
+		{
+			"include": "#objects"
+		},
+		{
+			"include": "source.js"
+		}
+	],
+	"repository": {
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.float.prettyscript",
+					"match": "\\b\\d+\\.\\d+\\b"
+				},
+				{
+					"name": "constant.numeric.integer.prettyscript",
+					"match": "\\b\\d+\\b"
+				}
+			]
+		},
+		"decorators": {
+			"patterns": [
+				{
+					"name": "meta.decorator.prettyscript",
+					"match": "@[a-zA-Z_][a-zA-Z0-9_]*",
+					"captures": {
+						"0": {
+							"name": "entity.name.decorator.prettyscript"
+						}
+					}
+				}
+			]
+		},
+		"special-variables": {
+			"patterns": [
+				{
+					"match": "\\b(__filename|__version|__package)\\b",
+					"name": "constant.language.prettyscript"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.prettyscript",
+					"match": "\\b(if|else|async|await|include)\\b"
+				},
+				{
+					"name": "keyword.other.prettyscript",
+					"match": "\\b(while|for|return|sizeof|observe|fn|lock)\\b"
+				},
+				{
+					"name": "keyword.other.prettyscript",
+					"match": "\\b(let|const|var)\\b"
+				},
+				{
+					"name": "keyword.other.prettyscript",
+					"match": "\\b(component|interface|render)\\b"
+				},
+				{
+					"name": "entity.name.type.interface.prettyscript",
+					"match": "\\b(React)\\b"
+				}
+			]
+		},
+		"use-statement": {
+			"patterns": [
+				{
+					"begin": "\\b(use)\\b",
+					"end": "(?=;|$)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other.prettyscript"
+						}
+					},
+					"patterns": [
+						{
+							"match": "[a-zA-Z_][a-zA-Z0-9_]*",
+							"name": "variable.other.prettyscript"
+						}
+					]
+				}
+			]
+		},
+		"render-block": {
+			"patterns": [
+				{
+					"begin": "\\b(render)\\s*\\{",
+					"end": "\\}",
+					"name": "meta.render.prettyscript",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other.prettyscript"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#html-tag"
+						},
+						{
+							"match": "\\$\\{[^}]*\\}",
+							"name": "meta.embedded.expression.prettyscript"
+						},
+						{
+							"include": "#strings"
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#numbers"
+						}
+					]
+				}
+			]
+		},
+		"html-tag": {
+			"patterns": [
+				{
+					"begin": "<([a-zA-Z][a-zA-Z0-9]*)(?:(\\.)([a-zA-Z_][a-zA-Z0-9_-]*))?(?:(#)([a-zA-Z_][a-zA-Z0-9_-]*))?(?=\\s|>|/>)",
+					"end": "(/?)>",
+					"name": "meta.html-tag.prettyscript",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.name.tag.html"
+						},
+						"2": {
+							"name": "punctuation.separator.class.html"
+						},
+						"3": {
+							"name": "entity.other.attribute-name.class.html"
+						},
+						"4": {
+							"name": "punctuation.separator.id.html"
+						},
+						"5": {
+							"name": "entity.other.attribute-name.id.html"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.tag.end.html"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#html-attribute"
+						},
+						{
+							"include": "#strings"
+						},
+						{
+							"include": "#numbers"
+						}
+					]
+				},
+				{
+					"begin": "</([a-zA-Z][a-zA-Z0-9]*)\\s*",
+					"end": ">",
+					"name": "meta.html-tag-close.prettyscript",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.name.tag.html"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.tag.end.html"
+						}
+					}
+				}
+			]
+		},
+		"html-attribute": {
+			"patterns": [
+				{
+					"match": "([a-zA-Z_][a-zA-Z0-9_-]*)\\s*(?=:?=)",
+					"captures": {
+						"1": {
+							"name": "entity.other.attribute-name.html"
+						}
+					}
+				},
+				{
+					"match": "\\b([a-zA-Z_][a-zA-Z0-9_-]*)(?=\\s|>|/)",
+					"name": "entity.other.attribute-name.html"
+				}
+			]
+		},
+		"interface-declaration": {
+			"patterns": [
+				{
+					"begin": "\\b(interface)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\{",
+					"end": "\\}",
+					"name": "meta.interface.prettyscript",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other.prettyscript"
+						},
+						"2": {
+							"name": "entity.name.type.interface.prettyscript"
+						}
+					},
+					"patterns": [
+						{
+							"match": "([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=:)",
+							"name": "variable.other.object.property.prettyscript"
+						},
+						{
+							"match": ":\\s*(int|string|float|bool|boolean|version|any|HTML)\\b",
+							"captures": {
+								"1": {
+									"name": "entity.name.type.prettyscript"
+								}
+							}
+						},
+						{
+							"include": "#comments"
+						}
+					]
+				}
+			]
+		},
+		"function-declaration": {
+			"patterns": [
+				{
+					"begin": "\\b(async)?\\s*(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+					"end": "\\)",
+					"name": "meta.function-declaration.prettyscript",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.prettyscript"
+						},
+						"2": {
+							"name": "keyword.other.prettyscript"
+						},
+						"3": {
+							"name": "entity.name.function.prettyscript"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#type-annotation"
+						},
+						{
+							"match": "[a-zA-Z_][a-zA-Z0-9_]*",
+							"name": "variable.parameter.prettyscript"
+						}
+					]
+				},
+				{
+					"begin": "\\{",
+					"end": "\\}",
+					"name": "meta.function-body.prettyscript",
+					"patterns": [
+						{
+							"include": "#strings"
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#decorators"
+						},
+						{
+							"include": "#special-variables"
+						},
+						{
+							"include": "#numbers"
+						},
+						{
+							"include": "#variable-declaration"
+						},
+						{
+							"include": "#render-block"
+						},
+						{
+							"include": "#keywords"
+						},
+						{
+							"include": "#type-annotation"
+						},
+						{
+							"include": "#function-call"
+						},
+						{
+							"include": "#objects"
+						},
+						{
+							"match": "[a-zA-Z_][a-zA-Z0-9_]*",
+							"name": "variable.other.prettyscript"
+						}
+					]
+				}
+			]
+		},
+		"component-declaration": {
+			"patterns": [
+				{
+					"begin": "\\b(component)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\{",
+					"end": "\\}",
+					"name": "meta.component.prettyscript",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other.prettyscript"
+						},
+						"2": {
+							"name": "entity.name.type.component.prettyscript"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#decorators"
+						},
+						{
+							"include": "#special-variables"
+						},
+						{
+							"include": "#render-block"
+						},
+						{
+							"include": "#html-tag"
+						},
+						{
+							"include": "#strings"
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#numbers"
+						},
+						{
+							"include": "#variable-declaration"
+						},
+						{
+							"include": "#function-call"
+						},
+						{
+							"include": "#objects"
+						},
+						{
+							"include": "#type-annotation"
+						},
+						{
+							"include": "#keywords"
+						}
+					]
+				}
+			]
+		},
+		"type-annotation": {
+			"patterns": [
+				{
+					"match": ":\\s*(int|float|string|boolean|bool|array|object|fn|null|set|any|HTML)\\b",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.prettyscript"
+						}
+					}
+				},
+				{
+					"match": ":\\s*([A-Z][a-zA-Z0-9_]*)\\b",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.interface.prettyscript"
+						}
+					}
+				}
+			]
+		},
+		"variable-declaration": {
+			"patterns": [
+				{
+					"match": "\\b(let|const|var)\\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\\s*:\\s*(int|float|string|fn|null|array|object|boolean|bool|HTML|[A-Z][a-zA-Z0-9_]*))?",
+					"captures": {
+						"1": {
+							"name": "keyword.other.prettyscript"
+						},
+						"2": {
+							"name": "variable.other.prettyscript"
+						},
+						"3": {
+							"name": "entity.name.type.prettyscript"
+						}
+					}
+				}
+			]
+		},
+		"function-call": {
+			"patterns": [
+				{
+					"match": "\\b([a-zA-Z_$][a-zA-Z0-9_$]*)(?=\\()",
+					"name": "support.function.prettyscript"
+				},		
+				{
+					"match": "\\blog\\b",
+					"name": "entity.name.function.prettyscript"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.prettyscript",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"name": "constant.character.escape.prettyscript",
+							"match": "\\\\."
+						},
+						{
+							"name": "meta.embedded.expression.prettyscript",
+							"match": "\\$\\{[^}]*\\}"
+						}
+					]
+				},
+				{
+					"name": "string.quoted.single.prettyscript",
+					"begin": "'",
+					"end": "'",
+					"patterns": [
+						{
+							"name": "constant.character.escape.prettyscript",
+							"match": "\\\\."
+						}
+					]
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.double-slash.prettyscript",
+					"match": "//.*$"
+				},
+				{
+					"name": "comment.block.prettyscript",
+					"begin": "/\\*",
+					"end": "\\*/"
+				}
+			]
+		},
+		"objects": {
+			"patterns": [
+				{
+					"begin": "\\{",
+					"end": "\\}",
+					"name": "meta.object.prettyscript",
+					"patterns": [
+						{
+							"match": "([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=:)",
+							"name": "variable.other.object.property.prettyscript"
+						},
+						{
+							"match": ":",
+							"name": "punctuation.separator.key-value.prettyscript"
+						},
+						{
+							"include": "#strings"
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#numbers"
+						},
+						{
+							"include": "#function-call"
+						},
+						{
+							"match": "\\b(true|false|null|undefined|void)\\b",
+							"name": "constant.language.prettyscript"
+						},
+						{
+							"match": "[a-zA-Z_][a-zA-Z0-9_]*",
+							"name": "variable.other.prettyscript"
+						}
+					]
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,110 @@
+{
+    "Render Block": {
+        "prefix": "render",
+        "body": [
+            "render {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Render block"
+    },
+    "Declare interface": {
+        "prefix": "interface",
+        "body": [
+            "observe ${1:Name} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Declare interface"
+    },
+    "Declare observe": {
+        "prefix": "observe",
+        "body": [
+            "observe ${0:''} {",
+            "\t$1",
+            "}"
+        ],
+        "description": "Declare observe"
+    },
+    "Declare HTTP Request": {
+        "prefix": "http.send",
+        "body": [
+            "http.send({",
+            "\ttype: ${0:'GET'}",
+            "\turl: $1",
+            "})"
+        ],
+        "description": "Declare HTTP Request"
+    },
+    "Declare function": {
+        "prefix": "fn",
+        "body": [
+            "fn ${0:name}($1) {",
+            "\t",
+            "}"
+        ],
+        "description": "Declare function"
+    },
+    "Declare async function": {
+        "prefix": "async",
+        "body": [
+            "async ${0:name}($1) {",
+            "\t",
+            "}"
+        ],
+        "description": "Declare async function"
+    },
+    "Preload a JS or CSS file": {
+        "prefix": "@preload",
+        "body": [
+            "@preload '${0}'"
+        ],
+        "description": "Preload a JS or CSS file"
+    },
+    "Dont export object from imported code": {
+        "prefix": "@nonexport",
+        "body": [
+            "@nonexport ${0}"
+        ],
+        "description": "Dont export object from imported code"
+    },
+    "Import code": {
+        "prefix": "include",
+        "body": [
+            "include '${0}'"
+        ],
+        "description": "Import code"
+    },
+    "Create component": {
+        "prefix": "component",
+        "body": [
+            "component ${0:Component} {",
+            "\t${1:<div></div>}",
+            "}"
+        ],
+        "description": "Create component"
+    },
+    "React app template": {
+        "prefix": "@app",
+        "body": [
+            "@app fn App() {",
+            "\t${1}",
+            "}"
+        ],
+        "description": "React app template"
+    },
+    "Returns current filename": {
+        "prefix": "__filename",
+        "body": [
+            "__filename"
+        ],
+        "description": "Returns current filename"
+    },
+    "Returns current version of PrettyScript": {
+        "prefix": "__version",
+        "body": [
+            "__version"
+        ],
+        "description": "Returns current version of PrettyScript"
+    }
+}

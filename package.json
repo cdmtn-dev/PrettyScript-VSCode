@@ -1,0 +1,51 @@
+{
+    "name": "prettyscript-vscode",
+    "displayName": "PrettyScript",
+    "description": "PrettyScript language support",
+    "icon": "./icons/ps.png",
+    "version": "0.0.5",
+    "publisher": "YurbaDevelopers",
+    "main": "main.js",
+    "type": "commonjs",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "activationEvents": [
+        "onLanguage:PrettyScript"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "ps",
+                "aliases": [
+                    "PrettyScript",
+                    "ps"
+                ],
+                "extensions": [
+                    ".ps"
+                ],
+                "icon": {
+                    "light": "./icons/ps-light.svg",
+                    "dark": "./icons/ps-dark.svg"
+                },
+                "configuration": "./syntaxes/prettyscript-language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "ps",
+                "scopeName": "source.ps",
+                "path": "./syntaxes/prettyscript.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "ps",
+                "path": "./snippets/ps.json"
+            }
+        ]
+    }
+}
